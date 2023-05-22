@@ -50,6 +50,7 @@ public class HomeController extends HttpServlet {
             out.println("</html>");
         }
     }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -68,13 +69,9 @@ public class HomeController extends HttpServlet {
             List<Tour> tours = t.getAllTours();
             request.getServletContext().setAttribute("myTours", tours);
             ArrayList<Tour> tour_list = (ArrayList<Tour>) request.getServletContext().getAttribute("tour-list");
-            List<Tour> cartTour = null;
             if (tour_list != null) {
-//                cartTour = pDao.getCartProducts(cart_list);
-//                pDao.getTotalCartPrice(cart_list);
-//                double total = tDao.getTotalCartPrice(cart_list);
+
                 request.setAttribute("tour_list", tour_list);
-//                request.setAttribute("total", total);
             }
 
             request.getRequestDispatcher("index.jsp").forward(request, response);

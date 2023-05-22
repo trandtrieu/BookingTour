@@ -10,16 +10,39 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Home </title>
         <%@include file="includes/head.jsp" %>
 
     </head>
+    <style>
 
+    </style>
     <body>
         <%@include file="includes/topbar.jsp" %>
         <%@include file="includes/carousel.jsp" %>
         <%@include file="includes/search.jsp" %>
 
+        <div id="demo" class="carousel slide" data-ride="carousel">
+
+
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+            </ul>
+            <div class="container banner-container carousel-inner">
+
+                <div class="carousel-item active">
+                    <img src="img/quaaa-3238.gif" alt="Banner Image" class="banner-image">
+                </div>
+                <div class="carousel-item ">
+                    <img src="img/banner-he-roi-di-thoi-4090.gif" alt="Banner Image" class="banner-image">
+                </div>
+
+            </div>
+        </div>
+
+
+        <%@include file="includes/aboutus.jsp" %>
 
         <!-- Packages Start -->
         <div class="container-fluid py-5">
@@ -37,13 +60,13 @@
 
                     <c:forEach var="t" items="${myTours}" varStatus="status">
                         <c:if test="${status.index >= (currentPage - 1) * itemsPerPage && status.index < currentPage * itemsPerPage}">
-                            <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="col-lg-4 col-md-6 mb-4" >
                                 <div class="package-item bg-white mb-2">
                                     <img class="img-fluid" src="img/${t.imageTour}" alt="">
                                     <div class="p-4">
                                         <div class="d-flex justify-content-between mb-3">
-                                            <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>${t.placeName}</small>
-                                            <span class="badge badge-danger">HOT</span>
+                                            <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>${t.placeName}                                            
+                                            </small>
                                             <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>2 Person</small>
                                         </div>
                                         <div class="d-flex justify-content-between mb-3">
@@ -52,7 +75,13 @@
 
 
                                         </div>
-                                        <a class="h5 text-decoration-none" href="detail?tid=${t.tourId}">${t.tourName}</a>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>${t.hotelName}</small>
+
+
+                                        </div>
+                                        <a class="h5 text-decoration-none" href="detail?tid=${t.tourId}">${t.tourName}  <span class="badge badge-danger">HOT</span></a>
+
                                         <div class="border-top mt-4 pt-4">
                                             <div class="d-flex justify-content-between">
                                                 <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>4.5 <small>(250)</small></h6>
@@ -84,7 +113,9 @@
                     </ul>
                 </c:if>
 
-
+                <div class="hotline-container">
+                    <a href="tel:0789458707" class="hotline-link">Hotline: 0789458707</a>
+                </div>
             </div>
         </div>
 

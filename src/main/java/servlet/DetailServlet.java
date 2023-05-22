@@ -6,6 +6,7 @@ package servlet;
 
 import dao.TourDao;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,14 +30,16 @@ public class DetailServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         int id = Integer.parseInt(request.getParameter("tid"));
         TourDao dao = new TourDao();
         Tour t = dao.getTourByID(id);
-        Tour last = dao.getLast();
+//        Tour last = dao.getLast();
+        List<Tour> tourRelated = dao.getTop4();
+        request.getServletContext().setAttribute("tRelated", tourRelated);
 
         request.setAttribute("detail", t);
-        request.setAttribute("t", last);
+//        request.setAttribute("t", last);
         request.getRequestDispatcher("single.jsp").forward(request, response);
     }
 

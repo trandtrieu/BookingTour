@@ -20,12 +20,16 @@ public class Tour {
     private String imageTour;
     private Boolean statusTour;
     private String placeName;
+    private String hotelName;
 
 
     public Tour() {
     }
 
-    public Tour(int tourId, String tourName, float price, Date dateStart, Date dateEnd, String detailTour, String imageTour, Boolean statusTour, String placeName) {
+
+
+    public Tour(int tourId, String tourName, float price, Date dateStart, Date dateEnd, String detailTour,
+            String imageTour, Boolean statusTour, String placeName, String hotelName) {
         this.tourId = tourId;
         this.tourName = tourName;
         this.price = price;
@@ -35,6 +39,7 @@ public class Tour {
         this.imageTour = imageTour;
         this.statusTour = statusTour;
         this.placeName = placeName;
+        this.hotelName = hotelName;
     }
 
     public int getTourId() {
@@ -107,6 +112,19 @@ public class Tour {
 
     public void setPlaceName(String placeName) {
         this.placeName = placeName;
+    }
+
+    public String getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    @Override
+    public String toString() {
+        return "Tour{" + "tourId=" + tourId + ", tourName=" + tourName + ", price=" + price + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", detailTour=" + detailTour + ", imageTour=" + imageTour + ", statusTour=" + statusTour + ", placeName=" + placeName + ", hotelName=" + hotelName + '}';
     }
 
     

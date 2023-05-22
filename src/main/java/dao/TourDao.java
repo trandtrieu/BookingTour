@@ -37,9 +37,10 @@ public class TourDao {
         List<Tour> tours = new ArrayList<Tour>();
         try {
 
-            query = " SELECT *, place.placeName\n"
-                    + " FROM tour\n"
-                    + "JOIN place ON tour.placeId = place.placeId";
+            query = "SELECT *, place.placeName, hotel.hotelName\n"
+                    + "FROM tour\n"
+                    + "JOIN place ON tour.placeId = place.placeId \n"
+                    + "JOIN hotel ON tour.hotelId = hotel.hotelId";
             pst = this.con.prepareStatement(query);
             rs = pst.executeQuery();
 
@@ -54,7 +55,7 @@ public class TourDao {
                 row.setDetailTour(rs.getString("detail"));
                 row.setStatusTour(rs.getBoolean("status"));
                 row.setPlaceName(rs.getString("placeName"));
-
+                row.setHotelName(rs.getString("hotelName"));
 
                 tours.add(row);
             }
@@ -113,6 +114,8 @@ public class TourDao {
                 row.setDateEnd(rs.getDate("dateEnd"));
                 row.setDetailTour(rs.getString("detail"));
                 row.setStatusTour(rs.getBoolean("status"));
+                row.setPlaceName(rs.getString("placeName"));
+                row.setHotelName(rs.getString("hotelName"));
 
             }
         } catch (Exception e) {
@@ -124,7 +127,11 @@ public class TourDao {
     }
 
     public Tour getTourByID(int id) {
-        String query = "select * from tour\n"
+
+        String query = "SELECT *, place.placeName, hotel.hotelName\n"
+                + "FROM tour\n"
+                + "JOIN place ON tour.placeId = place.placeId \n"
+                + "JOIN hotel ON tour.hotelId = hotel.hotelId\n"
                 + "where tourId = ?";
         try {
             this.con = DbCon.getConnection();
@@ -141,7 +148,8 @@ public class TourDao {
                         rs.getString(6),
                         rs.getString(7),
                         rs.getBoolean(8),
-                        rs.getString(9));
+                        rs.getString(9),
+                        rs.getString(10));
 
             }
         } catch (Exception e) {
@@ -150,7 +158,12 @@ public class TourDao {
     }
 
     public Tour getLast() {
-        String query = "select top 1 * from tour\n"
+//        String query = "select top 1 * from tour\n"
+//                + "order by tourId desc";
+        String query = "SELECT top 1 *, place.placeName, hotel.hotelName\n"
+                + "FROM tour\n"
+                + "JOIN place ON tour.placeId = place.placeId \n"
+                + "JOIN hotel ON tour.hotelId = hotel.hotelId\n"
                 + "order by tourId desc";
         try {
             pst = this.con.prepareStatement(query);
@@ -164,10 +177,36 @@ public class TourDao {
                         rs.getString(6),
                         rs.getString(7),
                         rs.getBoolean(8),
-                        rs.getString(9));
+                        rs.getString(9),
+                        rs.getString(10));
+
             }
         } catch (Exception e) {
         }
         return null;
+    }
+
+    public List<Tour> getTop4() {
+        List<Tour> list = new ArrayList<>();
+        String query = "select top 4 * from tour";
+        try {
+            pst = this.con.prepareStatement(query);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                list.add(new Tour(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getFloat(3),
+                        rs.getDate(4),
+                        rs.getDate(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getBoolean(8),
+                        rs.getString(9),
+                        rs.getString(10)));
+
+            }
+        } catch (SQLException e) {
+        }
+        return list;
     }
 }

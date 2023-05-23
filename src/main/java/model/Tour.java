@@ -21,6 +21,7 @@ public class Tour {
     private Boolean statusTour;
     private String placeName;
     private String hotelName;
+    private String regionName;
 
 
     public Tour() {
@@ -41,6 +42,30 @@ public class Tour {
         this.placeName = placeName;
         this.hotelName = hotelName;
     }
+
+    public Tour(int tourId, String tourName, float price, Date dateStart, Date dateEnd, String detailTour, String imageTour, Boolean statusTour, String placeName, String hotelName, String regionName) {
+        this.tourId = tourId;
+        this.tourName = tourName;
+        this.price = price;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.detailTour = detailTour;
+        this.imageTour = imageTour;
+        this.statusTour = statusTour;
+        this.placeName = placeName;
+        this.hotelName = hotelName;
+        this.regionName = regionName;
+    }
+
+    public String getRegionName() {
+        return regionName;
+    }
+
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
+    }
+    
+    
 
     public int getTourId() {
         return tourId;

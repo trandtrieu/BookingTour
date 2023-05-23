@@ -43,7 +43,30 @@
 
 
         <%@include file="includes/aboutus.jsp" %>
+        <div class="container-fluid py-5">
+            <div class="container pt-5 pb-3">
+                <div class="text-center mb-3 pb-3">
+                    <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Destination</h6>
+                    <h1>Explore Top Destination</h1>
+                </div>
+                <div class="row">
+                    <c:forEach var="r" items="${myRegions}" varStatus="status">
 
+                        <div class="col-lg-3 col-md-3 mb-3">
+                            <div class="destination-item position-relative overflow-hidden mb-2">
+                                <img class="img-fluid" src="img/${r.regionImage}" alt="">
+                                <a class="destination-overlay text-white text-decoration-none" href="">
+                                    <h5 class="text-white">${r.regionName}</h5>
+                                    <span>100 Cities</span>
+                                </a>
+                            </div>
+                        </div> 
+                    </c:forEach>
+                </div>
+            </div>
+
+
+        </div>
         <!-- Packages Start -->
         <div class="container-fluid py-5">
             <div class="container pt-5 pb-3">
@@ -77,6 +100,8 @@
                                         </div>
                                         <div class="d-flex justify-content-between mb-3">
                                             <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>${t.hotelName}</small>
+                                            <small class="m-0"><i class="fa fa-calendar-alt text-primary mr-2"></i>${t.regionName}</small>
+
 
 
                                         </div>
@@ -119,10 +144,18 @@
             </div>
         </div>
 
-        <!-- Packages End -->
-        <%@include file="includes/footer.jsp" %>
 
-    </body>
-    <%@include file="includes/foot.jsp" %>
+
+        <!-- Destination Start -->
+
+    </div>
+</div>
+<!-- Destination Start -->
+
+<!-- Packages End -->
+<%@include file="includes/footer.jsp" %>
+
+</body>
+<%@include file="includes/foot.jsp" %>
 
 </html>

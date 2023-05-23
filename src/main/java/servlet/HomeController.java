@@ -17,6 +17,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Region;
+import model.RegionDao;
 import model.Tour;
 
 /**
@@ -65,12 +67,14 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         try {
             TourDao t = new TourDao(DbCon.getConnection());
+            RegionDao r = new RegionDao(DbCon.getConnection());
+
             List<Tour> tours = t.getAllTours();
+            List<Region> regions = r.getAllRegions();
+
             request.getServletContext().setAttribute("myTours", tours);
-            ArrayList<Tour> tour_list = (ArrayList<Tour>) request.getServletContext().getAttribute("tour-list");
-            if (tour_list != null) {
-                request.setAttribute("tour_list", tour_list);
-            }
+            request.getServletContext().setAttribute("myRegions", regions);
+
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);

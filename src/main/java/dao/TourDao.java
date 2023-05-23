@@ -40,7 +40,9 @@ public class TourDao {
             query = "SELECT *, place.placeName, hotel.hotelName\n"
                     + "FROM tour\n"
                     + "JOIN place ON tour.placeId = place.placeId \n"
-                    + "JOIN hotel ON tour.hotelId = hotel.hotelId";
+                    + "JOIN hotel ON tour.hotelId = hotel.hotelId \n "
+                    + "JOIN region ON tour.regionId = region.regionId";
+
             pst = this.con.prepareStatement(query);
             rs = pst.executeQuery();
 
@@ -56,6 +58,7 @@ public class TourDao {
                 row.setStatusTour(rs.getBoolean("status"));
                 row.setPlaceName(rs.getString("placeName"));
                 row.setHotelName(rs.getString("hotelName"));
+                row.setRegionName(rs.getString("regionName"));
 
                 tours.add(row);
             }
@@ -66,6 +69,9 @@ public class TourDao {
         }
         return tours;
     }
+    
+    
+    
 
 //    public List<Tour> getTours(ArrayList<Tour> tourList) {
 //        List<Tour> tours = new ArrayList<>();

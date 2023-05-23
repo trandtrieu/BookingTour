@@ -140,16 +140,16 @@ public class TourDao {
             pst.setInt(1, id);
             rs = pst.executeQuery();
             while (rs.next()) {
-                return new Tour(rs.getInt(1),
-                        rs.getString(2),
-                        rs.getFloat(3),
-                        rs.getDate(4),
-                        rs.getDate(5),
-                        rs.getString(6),
-                        rs.getString(7),
-                        rs.getBoolean(8),
-                        rs.getString(9),
-                        rs.getString(10));
+                return new Tour(rs.getInt("tourId"),
+                        rs.getString("name"),
+                        rs.getFloat("price"),
+                        rs.getDate("dateStart"),
+                        rs.getDate("dateEnd"),
+                        rs.getString("detail"),
+                        rs.getString("image"),
+                        rs.getBoolean("status"),
+                        rs.getString("placeName"),
+                        rs.getString("hotelName"));
 
             }
         } catch (Exception e) {

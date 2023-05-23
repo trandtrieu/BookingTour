@@ -50,7 +50,6 @@ public class HomeController extends HttpServlet {
             out.println("</html>");
         }
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -70,10 +69,8 @@ public class HomeController extends HttpServlet {
             request.getServletContext().setAttribute("myTours", tours);
             ArrayList<Tour> tour_list = (ArrayList<Tour>) request.getServletContext().getAttribute("tour-list");
             if (tour_list != null) {
-
                 request.setAttribute("tour_list", tour_list);
             }
-
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);

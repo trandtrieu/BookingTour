@@ -29,10 +29,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <img src="img/${detail.imageTour}" alt="Tour Image" class="tour-image">
-
                 </div>
-
-
 
                 <div class="col-md-6">
                     <h2>${detail.tourName}</h2>
@@ -103,36 +100,37 @@
                             </div>
                         </div>
                         <!-- Comment List End -->
-
-
-                    </div>
-
-                    <div class="col-lg-4 mt-5 mt-lg-0">
-
                         <div class="mb-5">
                             <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Some new tours</h4>
-                            <c:forEach var="t" items="${tRelated}" varStatus="status">
-
-                                <a class="d-flex align-items-center text-decoration-none bg-white mb-3" href="">
-                                    <img class="img-fluid" src="img/${t.imageTour}" alt="" width="100" height="100">
+                            <c:forEach var="r" items="${tRelated}" varStatus="status">
+                                <div class="d-flex align-items-center text-decoration-none bg-white mb-3">
+                                    <img class="img-fluid" src="img/${r.imageTour}" alt="" width="100" height="100">
                                     <div class="pl-3">
-                                        <h6 class="m-1">${t.tourName}</h6>
+                                        <h6 class="m-1" id="tour-${r.tourId}" onclick="redirectToDetail('${r.tourId}')" style="cursor: pointer">${r.tourName}</h6>
                                         <small>Jan 01, 2050</small>
                                     </div>
-                                </a>                    
+                                </div>
                             </c:forEach>
-
-                            </div>
-
                         </div>
+
                     </div>
+
+
+
+
                 </div>
             </div>
-            <!-- Blog End -->
+        </div>
+        <!-- Blog End -->
 
         <%@include file="includes/footer.jsp" %>
 
     </body>
+    <script>
+        function redirectToDetail(tourId) {
+            window.location.href = "detail?tid=" + tourId;
+        }
+    </script>
     <%@include file="includes/foot.jsp" %>
 
 </html>

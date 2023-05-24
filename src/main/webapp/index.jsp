@@ -48,13 +48,15 @@
                 <div class="text-center mb-3 pb-3">
                     <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Destination</h6>
                     <h1>Explore Top Destination</h1>
+                    <p>Tổng số tour: ${tourCount}</p>
+
                 </div>
                 <div class="row">
                     <c:forEach var="r" items="${myRegions}" varStatus="status">
 
-                        <div class="col-lg-3 col-md-3 mb-3">
+                        <div class="col-lg-4 col-md-3 mb-4">
                             <div class="destination-item position-relative overflow-hidden mb-2">
-                                <img class="img-fluid" src="img/${r.regionImage}" alt="">
+                                <img class="img-thumbnail"  src="img/${r.regionImage}" alt="">
                                 <a class="destination-overlay text-white text-decoration-none" href="">
                                     <h5 class="text-white">${r.regionName}</h5>
                                     <span>100 Cities</span>
@@ -138,8 +140,12 @@
                     </ul>
                 </c:if>
 
-                <div class="hotline-container">
-                    <a href="tel:0789458707" class="hotline-link">Hotline: 0789458707</a>
+
+                <div class="container">
+                    <!-- Các mã HTML khác -->
+                    <div class="hotline-container">
+                        <a href="tel:0789458707" class="hotline-link">Hotline: 0789458707</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -156,6 +162,19 @@
 <%@include file="includes/footer.jsp" %>
 
 </body>
+
+<script>
+    window.addEventListener("scroll", function () {
+        var hotlineContainer = document.querySelector(".hotline-container");
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop === 0) {
+            hotlineContainer.style.display = "block";  // Ẩn phần tử khi ở trên đầu trang
+        } else {
+            hotlineContainer.style.display = "none";  // Hiển thị phần tử khi người dùng lướt xuống
+        }
+    });
+</script>
 <%@include file="includes/foot.jsp" %>
 
 </html>

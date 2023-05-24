@@ -69,9 +69,24 @@ public class TourDao {
         }
         return tours;
     }
-    
-    
-    
+
+    public int getAllToursCount() {
+        int count = 0;
+        try {
+            query = "SELECT COUNT(*) AS count FROM tour";
+            pst = this.con.prepareStatement(query);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return count;
+    }
 
 //    public List<Tour> getTours(ArrayList<Tour> tourList) {
 //        List<Tour> tours = new ArrayList<>();

@@ -34,7 +34,8 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">
-            <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Usefull Links</h5>
+            <h
+                5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">Usefull Links</h5>
             <div class="d-flex flex-column justify-content-start">
                 <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About</a>
                 <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Destination</a>

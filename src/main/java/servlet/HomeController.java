@@ -71,9 +71,11 @@ public class HomeController extends HttpServlet {
 
             List<Tour> tours = t.getAllTours();
             List<Region> regions = r.getAllRegions();
+            int tourCount = t.getAllToursCount();  // Lấy số lượng tour
 
             request.getServletContext().setAttribute("myTours", tours);
             request.getServletContext().setAttribute("myRegions", regions);
+            request.setAttribute("tourCount", tourCount);
 
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (ClassNotFoundException ex) {

@@ -4,7 +4,6 @@ servlet\HomeController.class
 model\GuideTour.class
 servlet\DetailServlet.class
 dao\GuideDao.class
-dao\TourDao.class
 connection\DbCon.class
 model\Tour.class
 model\TourSchedule.class

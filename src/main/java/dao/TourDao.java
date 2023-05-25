@@ -6,11 +6,16 @@ package dao;
 
 import connection.DbCon;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Tour;
 
 /**
@@ -33,41 +38,70 @@ public class TourDao {
     }
 
     public List<Tour> getAllTours() {
+        List<Tour> tours = new ArrayList<>();
 
-        List<Tour> tours = new ArrayList<Tour>();
-        try {
-
-            query = "SELECT *, place.placeName, hotel.hotelName\n"
-                    + "FROM tour\n"
-                    + "JOIN place ON tour.placeId = place.placeId \n"
-                    + "JOIN hotel ON tour.hotelId = hotel.hotelId \n "
-                    + "JOIN region ON tour.regionId = region.regionId";
-
-            pst = this.con.prepareStatement(query);
-            rs = pst.executeQuery();
+        try ( PreparedStatement pst = con.prepareStatement(
+                "SELECT *, place.placeName, hotel.hotelName\n"
+                + "FROM tour\n"
+                + "JOIN place ON tour.placeId = place.placeId\n"
+                + "JOIN hotel ON tour.hotelId = hotel.hotelId\n"
+                + "JOIN region ON tour.regionId = region.regionId");  ResultSet rs = pst.executeQuery()) {
 
             while (rs.next()) {
-                Tour row = new Tour();
-                row.setTourName(rs.getString("name"));
-                row.setTourId(rs.getInt("tourId"));
-                row.setImageTour(rs.getString("image"));
-                row.setPrice(rs.getFloat("price"));
-                row.setDateStart(rs.getDate("dateStart"));
-                row.setDateEnd(rs.getDate("dateEnd"));
-                row.setDetailTour(rs.getString("detail"));
-                row.setStatusTour(rs.getBoolean("status"));
-                row.setPlaceName(rs.getString("placeName"));
-                row.setHotelName(rs.getString("hotelName"));
-                row.setRegionName(rs.getString("regionName"));
-
-                tours.add(row);
+                Tour tour = extractTourFromResultSet(rs);
+                tours.add(tour);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
+
         return tours;
+    }
+
+    private Tour extractTourFromResultSet(ResultSet rs) throws SQLException {
+        Tour tour = new Tour();
+        tour.setTourId(rs.getInt("tourId"));
+        tour.setTourName(rs.getString("name"));
+        tour.setImageTour(rs.getString("image"));
+        tour.setPrice(rs.getFloat("price"));
+        tour.setDateStart(rs.getDate("dateStart"));
+        tour.setDateEnd(rs.getDate("dateEnd"));
+        tour.setDetailTour(rs.getString("detail"));
+        tour.setStatusTour(rs.getBoolean("status"));
+        tour.setPlaceName(rs.getString("placeName"));
+        tour.setHotelName(rs.getString("hotelName"));
+        tour.setRegionName(rs.getString("regionName"));
+
+        // Tính toán lịch trình từ dateStart đến dateEnd
+        Date startDate = rs.getDate("dateStart");
+        Date endDate = rs.getDate("dateEnd");
+        int numberOfDays = calculateNumberOfDays(startDate, endDate);
+
+        // Thiết lập lịch trình và số ngày chuyến đi
+        List<String> schedule = generateSchedule(numberOfDays);
+        tour.setSchedule(schedule);
+        tour.setNumberDay(numberOfDays);
+
+        return tour;
+    }
+
+    private int calculateNumberOfDays(Date startDate, Date endDate) {
+        long timeDifference = endDate.getTime() - startDate.getTime();
+        return (int) TimeUnit.DAYS.convert(timeDifference, TimeUnit.MILLISECONDS);
+    }
+
+    private List<String> generateSchedule(int numberOfDays) {
+        List<String> schedule = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+
+        for (int i = 0; i < numberOfDays; i++) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            String day = "Day " + (i + 1) + ": " + "Visit a tourist attraction";
+            schedule.add(day);
+        }
+
+        return schedule;
     }
 
     public int getAllToursCount() {
@@ -86,65 +120,6 @@ public class TourDao {
             System.out.println(e.getMessage());
         }
         return count;
-    }
-
-//    public List<Tour> getTours(ArrayList<Tour> tourList) {
-//        List<Tour> tours = new ArrayList<>();
-//        try {
-//            if (tourList.size() > 0) {
-//                for (Tour item : tourList) {
-//                    query = "select * from tour where id=?";
-//                    pst = this.con.prepareStatement(query);
-//                    pst.setInt(1, item.getId());
-//                    rs = pst.executeQuery();
-//                    while (rs.next()) {
-//                        Cart row = new Cart();
-//                        row.setImg_link(rs.getString("img_link"));
-//                        row.setId(rs.getInt("id"));
-//                        row.setName(rs.getString("name"));
-//                        row.setPrice(rs.getDouble("price") * item.getQuantity());
-//                        row.setQuantity(item.getQuantity());
-//                        products.add(row);
-//                    }
-//
-//                }
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            System.out.println(e.getMessage());
-//        }
-//        return products;
-//    }
-    public Tour getSingleTour(int id) {
-        Tour row = null;
-        try {
-            query = "select * from tour where id=? ";
-
-            pst = this.con.prepareStatement(query);
-            pst.setInt(1, id);
-            ResultSet rs = pst.executeQuery();
-
-            while (rs.next()) {
-                row = new Tour();
-                row.setTourId(rs.getInt("tourId"));
-                row.setTourName(rs.getString("name"));
-                row.setImageTour(rs.getString("image"));
-                row.setPrice(rs.getFloat("price"));
-                row.setDateStart(rs.getDate("dateStart"));
-                row.setDateEnd(rs.getDate("dateEnd"));
-                row.setDetailTour(rs.getString("detail"));
-                row.setStatusTour(rs.getBoolean("status"));
-                row.setPlaceName(rs.getString("placeName"));
-                row.setHotelName(rs.getString("hotelName"));
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-
-        return row;
     }
 
     public Tour getTourByID(int id) {
@@ -227,6 +202,44 @@ public class TourDao {
 
             }
         } catch (SQLException e) {
+        }
+        return list;
+    }
+
+    public List<Tour> getSearch(String searchStr) {
+        List<Tour> list = new ArrayList<>();
+
+        String query = "SELECT *\n"
+                + "FROM tour\n"
+                + "JOIN place ON tour.placeId = place.placeId\n"
+                + "JOIN hotel ON tour.hotelId = hotel.hotelId\n"
+                + "JOIN region ON tour.regionId = region.regionId\n"
+                + "WHERE name LIKE ?;";
+        try {
+            this.con = DbCon.getConnection();
+            pst = this.con.prepareStatement(query);
+            pst.setString(1, "%" + searchStr + "%");
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                Tour row = new Tour();
+                row.setTourId(rs.getInt("tourId"));
+                row.setTourName(rs.getString("name"));
+                row.setImageTour(rs.getString("image"));
+                row.setPrice(rs.getFloat("price"));
+                row.setDateStart(rs.getDate("dateStart"));
+                row.setDateEnd(rs.getDate("dateEnd"));
+                row.setDetailTour(rs.getString("detail"));
+                row.setStatusTour(rs.getBoolean("status"));
+                row.setPlaceName(rs.getString("placeName"));
+                row.setHotelName(rs.getString("hotelName"));
+                row.setRegionName(rs.getString("regionName"));
+
+                list.add(row);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
     }

@@ -4,6 +4,7 @@
     Author     : DELL
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -41,7 +42,13 @@
                             <a class="text-primary pl-3" href="">
                                 <i class="fab fa-youtube"></i>
                             </a>
+
+                            <form action="SearchServlet" style="margin-left: 20px"   >
+                                <input type="text" name="searchStr" placeholder="Search products...">
+                                <input type="submit" name="searchStr" value="Search" class="text-primary">
+                            </form>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -59,21 +66,32 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="HomeController" class="nav-item nav-link">Home</a>
-                            <a href="AboutServlet" class="nav-item nav-link">About</a>
-                            <a href="service.html" class="nav-item nav-link">Services</a>
-                            <a href="package.html" class="nav-item nav-link">Tour Packages</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu border-0 rounded-0 m-0">
-                                    <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                                    <a href="single.html" class="dropdown-item active">Blog Detail</a>
-                                    <a href="destination.html" class="dropdown-item">Destination</a>
-                                    <a href="guide.html" class="dropdown-item">Travel Guides</a>
-                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="HomeController" class="nav-item nav-link">Trang chủ</a>
+                            <a href="AboutServlet" class="nav-item nav-link">Giới thiệu</a>
+                            <a href="tourList.jsp" class="nav-item nav-link">Gói Tour</a>
+                            <!--                            <div class="nav-item dropdown">
+                                                            <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Pages</a>
+                                                            <div class="dropdown-menu border-0 rounded-0 m-0">
+                                                                <a href="blog.html" class="dropdown-item">Blog Grid</a>
+                                                                <a href="single.html" class="dropdown-item active">Blog Detail</a>
+                                                                <a href="destination.html" class="dropdown-item">Destination</a>
+                                                                <a href="guide.html" class="dropdown-item">Travel Guides</a>
+                                                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                                            </div>
+                                                        </div>-->
+                            <a href="#footerContact" class="nav-item nav-link">Liên hệ</a>
+                            <c:if test="${sessionScope.acc == null}">
+                                <a href="login.jsp" class="nav-item nav-link">Đăng nhập</a>
+                            </c:if>
+                            <c:if test="${sessionScope.acc != null}">
+                                <a href="LogoutServlet" class="nav-item nav-link">Đăng xuất</a>
+                            </c:if>
+
+                            <c:if test="${sessionScope.acc != null}">
+                                <a class="nav-item nav-link" style="text-decoration: none" href="profile.jsp">
+                                    Hello ${sessionScope.acc.username}
+                                </a>
+                            </c:if> 
                         </div>
                     </div>
                 </nav>

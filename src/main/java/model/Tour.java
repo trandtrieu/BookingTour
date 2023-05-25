@@ -5,6 +5,7 @@
 package model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -22,28 +23,10 @@ public class Tour {
     private String placeName;
     private String hotelName;
     private String regionName;
+    private List<String> schedule;
+    private int numberDay;
 
-
-    public Tour() {
-    }
-
-
-
-    public Tour(int tourId, String tourName, float price, Date dateStart, Date dateEnd, String detailTour,
-            String imageTour, Boolean statusTour, String placeName, String hotelName) {
-        this.tourId = tourId;
-        this.tourName = tourName;
-        this.price = price;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
-        this.detailTour = detailTour;
-        this.imageTour = imageTour;
-        this.statusTour = statusTour;
-        this.placeName = placeName;
-        this.hotelName = hotelName;
-    }
-
-    public Tour(int tourId, String tourName, float price, Date dateStart, Date dateEnd, String detailTour, String imageTour, Boolean statusTour, String placeName, String hotelName, String regionName) {
+    public Tour(int tourId, String tourName, float price, Date dateStart, Date dateEnd, String detailTour, String imageTour, Boolean statusTour, String placeName, String hotelName, String regionName, List<String> schedule, int numberDay) {
         this.tourId = tourId;
         this.tourName = tourName;
         this.price = price;
@@ -55,8 +38,57 @@ public class Tour {
         this.placeName = placeName;
         this.hotelName = hotelName;
         this.regionName = regionName;
+        this.schedule = schedule;
+        this.numberDay = numberDay;
     }
 
+    public Tour(int tourId, String tourName, float price, Date dateStart, Date dateEnd, String detailTour, String imageTour, Boolean statusTour, String placeName, String hotelName) {
+        this.tourId = tourId;
+        this.tourName = tourName;
+        this.price = price;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.detailTour = detailTour;
+        this.imageTour = imageTour;
+        this.statusTour = statusTour;
+        this.placeName = placeName;
+        this.hotelName = hotelName;
+    }
+
+    public Tour(int tourId, String tourName, float price, Date dateStart, Date dateEnd, String detailTour, String imageTour, Boolean statusTour, String placeName, String hotelName, String regionName, int numberDay) {
+        this.tourId = tourId;
+        this.tourName = tourName;
+        this.price = price;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.detailTour = detailTour;
+        this.imageTour = imageTour;
+        this.statusTour = statusTour;
+        this.placeName = placeName;
+        this.hotelName = hotelName;
+        this.regionName = regionName;
+        this.numberDay = numberDay;
+    }
+
+    
+    
+    public int getNumberDay() {
+        return numberDay;
+    }
+
+    
+
+    public void setNumberDay(int numberDay) {
+        this.numberDay = numberDay;
+    }
+
+ 
+    public Tour() {
+    }
+
+
+
+    
     public String getRegionName() {
         return regionName;
     }
@@ -145,6 +177,14 @@ public class Tour {
 
     public void setHotelName(String hotelName) {
         this.hotelName = hotelName;
+    }
+
+    public List<String> getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(List<String> schedule) {
+        this.schedule = schedule;
     }
 
     @Override

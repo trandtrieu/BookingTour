@@ -1,4 +1,4 @@
-package context;
+package connection;
 
 //import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import java.sql.Connection;

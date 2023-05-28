@@ -5,6 +5,7 @@
 package servlet;
 
 import connection.DbCon;
+import dao.RegionDao;
 import dao.TourDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -18,7 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import model.Region;
-import model.RegionDao;
 import model.Tour;
 
 /**

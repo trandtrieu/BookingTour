@@ -7,6 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -69,16 +71,22 @@
                     <div class="tab-content">
                         <div id="home" class="container tab-pane active"><br>
                             <h3>Schedule</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <p> ${detail.day1}</p> <br>
+                            <p> ${detail.day2}</p> <br>
+                            <p> ${detail.day3}</p> <br>
+                            <p> ${detail.day4}</p> <br>
+                            <p> ${detail.day5}</p> <br>
+                            <p> ${detail.day6}</p> <br>
+                            <p> ${detail.day7}</p> <br>
+
+
                         </div>
-                        <div id="menu1" class="container tab-pane fade"><br>
-                            <h3>Menu 1</h3>
-                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                        </div>
+
                         <%@include file="includes/policies.jsp" %>
 
 
                     </div>
+
                 </div>
 
                 <div class="col-md-6">
@@ -87,21 +95,12 @@
                     <p><strong>Departure Date:</strong> ${detail.dateStart}</p>
                     <p><strong>Return Date:</strong> ${detail.dateEnd}</p>
                     <p><strong>Hotel:</strong> ${detail.hotelName}</p>
-<!--                    <p><strong>Transportation:</strong> Private bus</p>-->
-<!--                    <p><strong>Sales:</strong> Contact our sales representative</p>-->
+                    <!--                    <p><strong>Transportation:</strong> Private bus</p>-->
+                    <!--                    <p><strong>Sales:</strong> Contact our sales representative</p>-->
                     <p><strong>Place:</strong> ${detail.placeName}</p>
+                    <p><strong>Place:</strong></p>
 
                     <p>${detail.detailTour}</p>
-                    <!--                    <h4 class="mb-3">Itinerary:</h4>
-                                        <ul class="list-group">
-                                            <li class="list-group-item">Day 1:</li>
-                                            <li class="list-group-item">Day 2: Visit Taipei 101 and National Palace Museum</li>
-                                            <li class="list-group-item">Day 3: Explore Jiufen Old Street and Shifen Waterfall</li>
-                                            <li class="list-group-item">Day 4: Enjoy the scenic beauty of Taroko Gorge</li>
-                                            <li class="list-group-item">Day 5: Visit Sun Moon Lake and Wenwu Temple</li>
-                                            <li class="list-group-item">Day 6: Relax at Kenting Beach</li>
-                                            <li class="list-group-item">Day 7: Departure</li>
-                                        </ul>-->
                     <a href="#" class="btn btn-primary mt-4">Book Now</a>
                 </div>
             </div>

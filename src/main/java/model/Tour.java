@@ -23,10 +23,9 @@ public class Tour {
     private String placeName;
     private String hotelName;
     private String regionName;
-    private List<String> schedule;
     private int numberDay;
 
-    public Tour(int tourId, String tourName, float price, Date dateStart, Date dateEnd, String detailTour, String imageTour, Boolean statusTour, String placeName, String hotelName, String regionName, List<String> schedule, int numberDay) {
+    public Tour(int tourId, String tourName, float price, Date dateStart, Date dateEnd, String detailTour, String imageTour, Boolean statusTour, String placeName, String hotelName, String regionName) {
         this.tourId = tourId;
         this.tourName = tourName;
         this.price = price;
@@ -38,9 +37,10 @@ public class Tour {
         this.placeName = placeName;
         this.hotelName = hotelName;
         this.regionName = regionName;
-        this.schedule = schedule;
-        this.numberDay = numberDay;
     }
+    
+
+
 
     public Tour(int tourId, String tourName, float price, Date dateStart, Date dateEnd, String detailTour, String imageTour, Boolean statusTour, String placeName, String hotelName) {
         this.tourId = tourId;
@@ -54,6 +54,8 @@ public class Tour {
         this.placeName = placeName;
         this.hotelName = hotelName;
     }
+
+
 
     public Tour(int tourId, String tourName, float price, Date dateStart, Date dateEnd, String detailTour, String imageTour, Boolean statusTour, String placeName, String hotelName, String regionName, int numberDay) {
         this.tourId = tourId;
@@ -179,13 +181,7 @@ public class Tour {
         this.hotelName = hotelName;
     }
 
-    public List<String> getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(List<String> schedule) {
-        this.schedule = schedule;
-    }
+   
 
     @Override
     public String toString() {

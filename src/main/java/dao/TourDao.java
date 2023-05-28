@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Tour;
+import model.TourSchedule;
 
 /**
  *
@@ -59,8 +60,8 @@ public class TourDao {
         return tours;
     }
 
-    private Tour extractTourFromResultSet(ResultSet rs) throws SQLException {
-        Tour tour = new Tour();
+    private TourSchedule extractTourFromResultSet(ResultSet rs) throws SQLException {
+        TourSchedule tour = new TourSchedule();
         tour.setTourId(rs.getInt("tourId"));
         tour.setTourName(rs.getString("name"));
         tour.setImageTour(rs.getString("image"));
@@ -79,8 +80,6 @@ public class TourDao {
         int numberOfDays = calculateNumberOfDays(startDate, endDate);
 
         // Thiết lập lịch trình và số ngày chuyến đi
-        List<String> schedule = generateSchedule(numberOfDays);
-        tour.setSchedule(schedule);
         tour.setNumberDay(numberOfDays);
 
         return tour;
@@ -89,19 +88,6 @@ public class TourDao {
     private int calculateNumberOfDays(Date startDate, Date endDate) {
         long timeDifference = endDate.getTime() - startDate.getTime();
         return (int) TimeUnit.DAYS.convert(timeDifference, TimeUnit.MILLISECONDS);
-    }
-
-    private List<String> generateSchedule(int numberOfDays) {
-        List<String> schedule = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
-
-        for (int i = 0; i < numberOfDays; i++) {
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            String day = "Day " + (i + 1) + ": " + "Visit a tourist attraction";
-            schedule.add(day);
-        }
-
-        return schedule;
     }
 
     public int getAllToursCount() {
@@ -124,10 +110,12 @@ public class TourDao {
 
     public Tour getTourByID(int id) {
 
-        String query = "SELECT *, place.placeName, hotel.hotelName\n"
+        String query = "SELECT *    "
                 + "FROM tour\n"
                 + "JOIN place ON tour.placeId = place.placeId \n"
                 + "JOIN hotel ON tour.hotelId = hotel.hotelId\n"
+                + "JOIN region ON tour.regionId = region.regionId\n"
+                + "JOIN schedule ON tour.scheduleId = schedule.scheduleId\n"
                 + "where tourId = ?";
         try {
             this.con = DbCon.getConnection();
@@ -136,7 +124,16 @@ public class TourDao {
             pst.setInt(1, id);
             rs = pst.executeQuery();
             while (rs.next()) {
-                return new Tour(rs.getInt("tourId"),
+                return new TourSchedule(
+                        rs.getInt("scheduleId"),
+                        rs.getString("day1"),
+                        rs.getString("day2"),
+                        rs.getString("day3"),
+                        rs.getString("day4"),
+                        rs.getString("day5"),
+                        rs.getString("day6"),
+                        rs.getString("day7"),
+                        rs.getInt("tourId"),
                         rs.getString("name"),
                         rs.getFloat("price"),
                         rs.getDate("dateStart"),
@@ -145,10 +142,11 @@ public class TourDao {
                         rs.getString("image"),
                         rs.getBoolean("status"),
                         rs.getString("placeName"),
-                        rs.getString("hotelName"));
+                        rs.getString("hotelName"),
+                        rs.getString("regionName"));
 
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
         }
         return null;
     }
@@ -206,21 +204,41 @@ public class TourDao {
         return list;
     }
 
-    public List<Tour> getSearch(String searchStr) {
-        List<Tour> list = new ArrayList<>();
+    public List<Tour> getToursByRegionName(String regionName) {
+        String query = "SELECT *, place.placeName, hotel.hotelName "
+                + "FROM tour "
+                + "JOIN place ON tour.placeId = place.placeId "
+                + "JOIN hotel ON tour.hotelId = hotel.hotelId "
+                + "JOIN region ON tour.regionId = region.regionId "
+                + "JOIN schedule ON tour.scheduleId = schedule.scheduleId "
+                + "WHERE regionName LIKE ?";
 
-        String query = "SELECT *\n"
-                + "FROM tour\n"
-                + "JOIN place ON tour.placeId = place.placeId\n"
-                + "JOIN hotel ON tour.hotelId = hotel.hotelId\n"
-                + "JOIN region ON tour.regionId = region.regionId\n"
-                + "WHERE name LIKE ?;";
+        return getToursByQuery(query, regionName);
+    }
+
+    public List<Tour> getToursByName(String tourName) {
+        String query = "SELECT *, place.placeName, hotel.hotelName "
+                + "FROM tour "
+                + "JOIN place ON tour.placeId = place.placeId "
+                + "JOIN hotel ON tour.hotelId = hotel.hotelId "
+                + "JOIN region ON tour.regionId = region.regionId "
+                + "JOIN schedule ON tour.scheduleId = schedule.scheduleId "
+                + "WHERE name LIKE ?";
+
+        return getToursByQuery(query, tourName);
+    }
+
+    private List<Tour> getToursByQuery(String query, String searchStr) {
+        List<Tour> list = new ArrayList<>();
         try {
             this.con = DbCon.getConnection();
             pst = this.con.prepareStatement(query);
             pst.setString(1, "%" + searchStr + "%");
             rs = pst.executeQuery();
+
             while (rs.next()) {
+                // Lấy dữ liệu từ ResultSet và thêm vào list
+                // ...
                 Tour row = new Tour();
                 row.setTourId(rs.getInt("tourId"));
                 row.setTourName(rs.getString("name"));
@@ -236,6 +254,7 @@ public class TourDao {
 
                 list.add(row);
             }
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -243,4 +262,50 @@ public class TourDao {
         }
         return list;
     }
+
+//    public List<Tour> getSearch(String searchStr) {
+//        List<Tour> list = new ArrayList<>();
+////
+////        String query = "SELECT *\n"
+////                + "FROM tour\n"
+////                + "JOIN place ON tour.placeId = place.placeId\n"
+////                + "JOIN hotel ON tour.hotelId = hotel.hotelId\n"
+////                + "JOIN region ON tour.regionId = region.regionId\n"
+////                + "WHERE name LIKE ?;";
+//
+//        String query = "SELECT *, place.placeName, hotel.hotelName "
+//                + "FROM tour "
+//                + "JOIN place ON tour.placeId = place.placeId "
+//                + "JOIN hotel ON tour.hotelId = hotel.hotelId "
+//                + "JOIN region ON tour.regionId = region.regionId "
+//                + "JOIN schedule ON tour.scheduleId = schedule.scheduleId "
+//                + "WHERE regionName LIKE ? OR name LIKE ?";
+//        try {
+//            this.con = DbCon.getConnection();
+//            pst = this.con.prepareStatement(query);
+//            pst.setString(1, "%" + searchStr + "%");
+//            rs = pst.executeQuery();
+//            while (rs.next()) {
+//                Tour row = new Tour();
+//                row.setTourId(rs.getInt("tourId"));
+//                row.setTourName(rs.getString("name"));
+//                row.setImageTour(rs.getString("image"));
+//                row.setPrice(rs.getFloat("price"));
+//                row.setDateStart(rs.getDate("dateStart"));
+//                row.setDateEnd(rs.getDate("dateEnd"));
+//                row.setDetailTour(rs.getString("detail"));
+//                row.setStatusTour(rs.getBoolean("status"));
+//                row.setPlaceName(rs.getString("placeName"));
+//                row.setHotelName(rs.getString("hotelName"));
+//                row.setRegionName(rs.getString("regionName"));
+//
+//                list.add(row);
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(TourDao.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return list;
+//    }
 }

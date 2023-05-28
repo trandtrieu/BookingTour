@@ -7,6 +7,7 @@ package servlet;
 import dao.TourDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,14 +56,20 @@ public class SearchServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String searchStr = request.getParameter("searchStr");
         TourDao tourDao = new TourDao();
-        List<Tour> listSearch = tourDao.getSearch(searchStr);
+        List<Tour> listSearchByName = tourDao.getToursByName(searchStr);
+        List<Tour> listSearchByRegionName = tourDao.getToursByRegionName(searchStr);
 
-        request.setAttribute("listS", listSearch);
+        List<Tour> combinedList = new ArrayList<>();
+        combinedList.addAll(listSearchByName);
+        combinedList.addAll(listSearchByRegionName);
+
+        request.setAttribute("listS", combinedList);
 
         request.getRequestDispatcher("searchResult.jsp").forward(request, response);
     }
